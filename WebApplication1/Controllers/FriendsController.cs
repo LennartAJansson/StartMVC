@@ -5,32 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Abstract;
 using WebApplication1.Models;
 
-public class FriendsController(IFriendsService service)
+public class FriendsController(/*IFriendsService service*/)
   : Controller
 {
-  //Initialize AddFriendView
-  public IActionResult AddFriend()
-  {
-    //Skapar och returnern vyn för inmatning av vän
-    return View();
-  }
 
-  //AddFriendView OnSubmit
-  public IActionResult AddFriendSubmit()
-  {
-    //Form submit i vyn kommer hit, hur hittar jag min postade form?
-    //this.HttpContext.Request...
-    return Ok();
-  }
+  private readonly List<Friend> friends =
+    [
+      new Friend { Id = 1, Name = "John Doe", Email = "" },
+      new Friend { Id = 2, Name = "Jane Doe", Email = "" }
+    ];
 
-  //AddFriendView OnReset
-  public IActionResult AddFriendReset()
-  {
-    return View();
-  }
+  [HttpGet]
+  public IActionResult GetFriends() => View(friends);
 
-  public IActionResult GetFriends()
-  {
-    return View();
-  }
+  [HttpGet("DeleteFriend/{id}")]
+  public IActionResult DeleteFriend(int id) => RedirectToAction("GetFriends");
 }
